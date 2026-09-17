@@ -271,17 +271,3 @@ plt.legend(['Lin. Reg.','Raw Data'])
 plt.title('Regression of Sensor Data')
 plt.grid()
 plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
