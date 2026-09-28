@@ -6,3 +6,5 @@ dependencies:
   - matplotlib
   - numpy
   - scikit-learn
+  - pyserial
+  - pandas

@@ -1,0 +1,6 @@
+0g test, Accel in X mean: 0.014976536999999998    Accel in X std: 0.0017461261571349877
+0g test, Accel in Y mean: 0.006421896999999999    Accel in Y std: 0.0013591427932307188
+0g test, Accel in Z mean: 1.001067035    Accel in Z std: 0.0010835646449451018
+0g test, Gyro data in X mean: -0.04781875000000001    Gyro data in X std: 0.0017461261571349877
+0g test, Gyro data in Y mean: 0.0589225    Gyro data in Y std: 0.009092188955361631
+0g test, Gyro data in Z mean: -0.06780375000000001    Gyro data in Z std: 0.012651238266964227
