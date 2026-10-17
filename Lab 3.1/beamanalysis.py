@@ -68,7 +68,7 @@ accz_g = accz_g - np.mean(accz_g)
 T1, T2 = 0, time[-1]
 
 # Uncomment and update the Time values below based on the experimental data limits
-# T1, T2 = 4.69, 25
+T1, T2 = 3, 25
 it1 = np.nonzero(time > T1)[0][0]
 it2 = np.nonzero(time < T2)[0][-1]
 
@@ -82,15 +82,15 @@ Az_peaks  = Az[Az_its] # Solves for peak values using Az_its iteration values
 Tz_peaks  = Tz[Az_its] # Solves for the Time associated with each Peak value
 
 # Calculate the Average Period by averaging the time between measured peaks
-Tz_avg    =     # [s]
-wd_exp    =     # [rad/s], Make sure to convert from Hz to Rad/s
+Tz_avg    = np.mean((Tz_peaks[1:] - Tz_peaks[:-1]))    # [s]
+wd_exp    = 2*np.pi/Tz_avg    # [rad/s], Make sure to convert from Hz to Rad/s
 
 
 # Solve for zeta:
-N      = 30
+N      = 60
 Nvec   = np.arange(1,N+1,1)
 A0     = Az_peaks[0]
-lnA0An = 
+lnA0An = np.log(A0 / Az_peaks[Nvec])
 
 # Reshape Nvec and LnA0An for Linear Regression
 Nvec   = Nvec.reshape(-1, 1)
@@ -101,19 +101,47 @@ Zmodel = LinearRegression(fit_intercept = False).fit(Nvec, lnA0An)
 ZR2    = Zmodel.score(Nvec, lnA0An)
 Beta, Zint = float(Zmodel.coef_), float(Zmodel.intercept_)
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Linear Regression
+Zmodel = LinearRegression(fit_intercept=False).fit(Nvec, lnA0An)
+ZR2    = Zmodel.score(Nvec, lnA0An)
+Beta   = float(Zmodel.coef_)
+Zint   = float(Zmodel.intercept_)
+
+# Plot
+plt.scatter(Nvec, lnA0An, label='Data')
+
+xfit = np.linspace(Nvec.min(), Nvec.max(), 200).reshape(-1, 1)
+yfit = Zmodel.predict(xfit)
+
+plt.plot(xfit, yfit, label=fr'Fit: $\beta={Beta:.4f}$, $R^2={ZR2:.4f}$')
+
+plt.xlabel(r'$N$')
+plt.ylabel(r'$\ln(A_0/A_n)$')
+plt.legend()
+plt.grid()
+plt.show()
+
+
+
+
+
+
 # Solve for zeta
-zeta = 
+zeta = Beta / (4 * np.pi **2 + Beta**2)
 
 # Equation for wd = wn*sqrt(1 - zeta^2)
-wn_exp =  # [rad/s]
+wn_exp =  wd_exp / np.sqrt(1-zeta**2) # [rad/s]
 
 # Solve for effective mass
-m_eff   = 
-m_diff  = 
-mb_diff = 
+m_eff   = Kth / wn_exp**2
+m_diff  = m_eff - Mlump
+mb_diff = 100* m_diff / Mbeam
 
 # Solve for damping coefficient (b) value
-bexp = 
+bexp = 2 * zeta * wn_exp / m_eff
 
 
 # %% All Print Commands
@@ -163,4 +191,9 @@ plt.xlabel('Peak Number')
 plt.ylabel('ln(A0/An)')
 plt.legend(["ln(A0/An)","Regression"])
 plt.show()
+
+
+
+
+
 

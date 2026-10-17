@@ -1,0 +1,66 @@
+\documentclass[name=Kushaal,title=TwoCanPrelab]{report}
+\usepackage{amsmath,graphicx,booktabs,enumitem}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\addbibresource{ref.bib}
+\renewcommand{\name}{Kushaal Singh}
+\renewcommand{\reporttitle}{Two-Can Lab Prelab}
+\begin{document}
+\problem{1: Ideal Flow Coefficients}
+From the lecture appendix, with ideal contraction and velocity coefficients $C_c=C_v=1$,
+\[
+A_c=\frac{\pi D^2}{4},\quad A_o=\frac{\pi d^2}{4},\quad
+K_{o,\mathrm{ideal}}=\frac{1}{\sqrt{1-(A_o/A_c)^2}},\quad
+K_{\mathrm{ideal}}=K_{o,\mathrm{ideal}}A_o\sqrt{\frac{2g}{A_c}}.
+\]
+For Can Set 1, use $g=981\,\mathrm{cm/s^2}$ and $1\,\mathrm{in}=2.54\,\mathrm{cm}$.
+\begin{center}
+\begin{tabular}{lrr}\toprule
+Quantity & Top can (1) & Bottom can (2)\\\midrule
+$D$ (cm) & 10.17270 & 7.63778\\
+$d$ (cm) & 0.63246 & 0.31242\\
+$A_c$ (cm$^2$) & 81.2760 & 45.8167\\
+$A_o$ (cm$^2$) & 0.314164 & 0.076660\\\bottomrule
+\end{tabular}
+\end{center}
+\[
+\boxed{K_1=1.543574\ \mathrm{cm^{3/2}/s}},\qquad
+\boxed{K_2=0.501655\ \mathrm{cm^{3/2}/s}}.
+\]
+These are theoretical values for free discharge; the experimental coefficients can differ.
+
+\problem{2: Sample Simulation}
+The supplied fourth-order Runge--Kutta code models
+\[
+\dot V_1=-K_1\sqrt{\max(V_1,0)},\qquad
+\dot V_2=K_1\sqrt{\max(V_1,0)}-K_2\sqrt{\max(V_2,0)}.
+\]
+For $V_1(0)=406\,\mathrm{mL}$ and $V_2(0)=0$, the predicted bottom-can peak is approximately $255.4\,\mathrm{mL}$ at $19.38\,\mathrm{s}$, corresponding to a depth of $5.57\,\mathrm{cm}$.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\linewidth]{two_can_sim_set1_compact.png}
+\caption{Simulated water volumes and outlet flow rates for Can Set 1 using ideal coefficients.}
+\end{figure}
+\clearpage
+\problem{3: One-Can Experimental Procedure}
+\textbf{Objective.} Determine $K_1$ and $K_2$ separately from emptying experiments, without electronic sensors. For a single can with no inflow,
+\[
+\dot V=-K\sqrt V,\qquad 2\sqrt{V_0}=KT_e,\qquad K=\frac{2\sqrt{V_0}}{T_e}.
+\]
+\begin{enumerate}[leftmargin=*,itemsep=0.45em]
+\item Set one can upright over a catch reservoir with its bottom orifice temporarily plugged. Keep the can level and ensure the discharge is unobstructed.
+\item Measure or confirm its inside diameter $D$ and compute $A_c=\pi D^2/4$. Mark the water heights corresponding to approximately 20\%, 50\%, and 80\% of the can's usable height; calculate $V_0=A_ch_0$ for each mark.
+\item Fill to the first marked height. Record the initial water height $h_0$ and volume $V_0$; use the same release technique for every trial.
+\item Remove the plug while starting a handheld stopwatch. Stop timing when continuous discharge ends (record the endpoint definition consistently). Record emptying time $T_e$.
+\item Repeat each starting height three times, refilling between trials. Record can ID, $D$, $h_0$, $V_0$, $T_e$, and any observations (leaks, splashing, delayed release).
+\item Repeat Steps 1--5 for the other can, collecting nine trials per can (18 total).
+\item Compute $K=2\sqrt{V_0}/T_e$ for each trial. Plot $2\sqrt{V_0}$ versus $T_e$ and estimate $K$ from the slope of a linear fit. Inspect any nonzero intercept as evidence of timing bias or model mismatch.
+\item Report each can's fitted $K$, trial-to-trial variation, and the difference from its theoretical ideal value. Use the experimental coefficients in the two-can simulation for the in-lab prediction.
+\end{enumerate}
+\textbf{Measurement table columns:} can ID, trial, $D$ (cm), $h_0$ (cm), $V_0$ (mL), $T_e$ (s), $K$ (cm$^{3/2}$/s), notes.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.52\linewidth]{can_dimensions.png}
+\caption{Can geometry and Can Set 1 dimensions from the laboratory handout.}
+\end{figure}
+\end{document}

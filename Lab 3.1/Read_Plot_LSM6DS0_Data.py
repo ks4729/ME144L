@@ -35,7 +35,7 @@ plt.grid()
 plt.legend()
 plt.xlabel('Time [s]')
 plt.ylabel("Acceleration [g]")
-plt.title("Acceleration vs Time")
+plt.title(" Acceleration vs Time")
 
 plt.figure()
 plt.plot(time, wx_dps, label='wx')
